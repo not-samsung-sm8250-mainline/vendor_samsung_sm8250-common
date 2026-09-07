@@ -27,9 +27,11 @@ PRODUCT_COPY_FILES += \
     vendor/samsung/sm8250-common/proprietary/vendor/etc/init/init_thermal-engine.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init_thermal-engine.rc \
     vendor/samsung/sm8250-common/proprietary/vendor/etc/init/ipa_fws.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/ipa_fws.rc \
     vendor/samsung/sm8250-common/proprietary/vendor/etc/init/netmgrd.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/netmgrd.rc \
+    vendor/samsung/sm8250-common/proprietary/vendor/etc/init/qdcmss.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/qdcmss.rc \
     vendor/samsung/sm8250-common/proprietary/vendor/etc/init/qseecomd.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/qseecomd.rc \
     vendor/samsung/sm8250-common/proprietary/vendor/etc/init/shsusrd.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/shsusrd.rc \
     vendor/samsung/sm8250-common/proprietary/vendor/etc/init/ssgtzd.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/ssgtzd.rc \
+    vendor/samsung/sm8250-common/proprietary/vendor/etc/init/vendor.display.color@1.0-service.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/vendor.display.color@1.0-service.rc \
     vendor/samsung/sm8250-common/proprietary/vendor/etc/init/vendor.qti.adsprpc-service.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/vendor.qti.adsprpc-service.rc \
     vendor/samsung/sm8250-common/proprietary/vendor/etc/init/vendor.qti.cdsprpc-service.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/vendor.qti.cdsprpc-service.rc \
     vendor/samsung/sm8250-common/proprietary/vendor/etc/init/vendor.qti.hardware.capabilityconfigstore@1.0-service.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/vendor.qti.hardware.capabilityconfigstore@1.0-service.rc \
@@ -93,23 +95,24 @@ PRODUCT_COPY_FILES += \
     vendor/samsung/sm8250-common/proprietary/vendor/lib64/camera/w_dual_calibration.bin:$(TARGET_COPY_OUT_VENDOR)/lib64/camera/w_dual_calibration.bin \
     vendor/samsung/sm8250-common/proprietary/vendor/lib64/camera/w_tof_calibration.bin:$(TARGET_COPY_OUT_VENDOR)/lib64/camera/w_tof_calibration.bin
 
-ifeq ($(TARGET_USES_MAINLINE_GRAPHICS),)
-PRODUCT_COPY_FILES += \
-    vendor/samsung/sm8250-common/proprietary/vendor/etc/init/qdcmss.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/qdcmss.rc \
-    vendor/samsung/sm8250-common/proprietary/vendor/etc/init/vendor.display.color@1.0-service.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/vendor.display.color@1.0-service.rc
-endif
-
-ifeq ($(TARGET_USES_MAINLINE_GRAPHICS),true)
-PRODUCT_COPY_FILES += \
-    vendor/samsung/sm8250-common/proprietary/vendor/firmware/a650_gmu.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/qcom/a650_gmu.bin \
-    vendor/samsung/sm8250-common/proprietary/vendor/firmware/a650_sqe.fw:$(TARGET_COPY_OUT_VENDOR)/firmware/qcom/a650_sqe.fw
-endif
-
 PRODUCT_PACKAGES += \
+    eglSubDriverAndroid \
+    libEGL_adreno \
+    libGLESv1_CM_adreno \
+    libGLESv2_adreno \
+    libq3dtools_adreno \
+    libq3dtools_esx \
     vendor.qti.hardware.qseecom@1.0-impl \
+    vulkan.adreno \
+    libC2D2 \
+    libCB \
+    libGPreqcancel \
+    libGPreqcancel_svc \
     libOpenCL \
     libQSEEComAPI \
     libVkLayer_q3dtools \
+    libadreno_utils \
+    libc2d30_bltlib \
     libcdsprpc \
     libconfigdb \
     libcpion \
@@ -121,7 +124,11 @@ PRODUCT_PACKAGES += \
     libfastcvdsp_stub \
     libfastcvopt \
     libfloatingfeature \
+    libgpudataproducer \
+    libgsl \
     libidl \
+    libllvm-glnext \
+    libllvm-qcom \
     libmdmdetect \
     libminkdescriptor \
     libminksocket \
@@ -323,6 +330,11 @@ PRODUCT_PACKAGES += \
     libscveObjectSegmentation_stub \
     libscveObjectTracker \
     libscveObjectTracker_stub \
+    libsdm-color \
+    libsdm-colormgr-algo \
+    libsdm-diag \
+    libsdm-disp-vndapis \
+    libsdmextension \
     libsdsprpc \
     libsec-ril \
     libsecureui \
@@ -367,9 +379,17 @@ PRODUCT_PACKAGES += \
     libvpphcp \
     libvpphvx \
     libvpplibrary \
+    unnhal-acc-adreno \
     unnhal-acc-common \
     unnhal-acc-hta \
     unnhal-acc-hvx \
+    vendor.display.color@1.0 \
+    vendor.display.color@1.1 \
+    vendor.display.color@1.2 \
+    vendor.display.color@1.3 \
+    vendor.display.color@1.4 \
+    vendor.display.color@1.5 \
+    vendor.display.postproc@1.0 \
     vendor.qti.hardware.camera.postproc@1.0-service-impl \
     vendor.qti.hardware.cvp@1.0 \
     vendor.qti.hardware.dsp@1.0 \
@@ -433,6 +453,7 @@ PRODUCT_PACKAGES += \
     android.hardware.neuralnetworks@1.3-service-qti \
     macloader \
     rild \
+    vendor.display.color@1.0-service \
     vendor.qti.hardware.capabilityconfigstore@1.0-service \
     vendor.qti.hardware.qseecom@1.0-service \
     vendor.qti.hardware.qteeconnector@1.0-service \
@@ -451,6 +472,7 @@ PRODUCT_PACKAGES += \
     pm-proxy \
     pm-service \
     ppd \
+    qdcmss \
     qrtr-ns \
     qseecomd \
     rmt_storage \
@@ -466,46 +488,10 @@ PRODUCT_PACKAGES += \
     thermal-engine \
     time_daemon
 
-# Downstream Adreno/display stack, skipped with TARGET_USES_MAINLINE_GRAPHICS
-ifeq ($(TARGET_USES_MAINLINE_GRAPHICS),)
 PRODUCT_PACKAGES += \
-    eglSubDriverAndroid \
-    libEGL_adreno \
-    libGLESv1_CM_adreno \
-    libGLESv2_adreno \
-    libq3dtools_adreno \
-    libq3dtools_esx \
-    vulkan.adreno \
-    libC2D2 \
-    libCB \
-    libGPreqcancel \
-    libGPreqcancel_svc \
-    libadreno_utils \
-    libc2d30_bltlib \
-    libgpudataproducer \
-    libgsl \
-    libllvm-glnext \
-    libllvm-qcom \
-    libsdm-color \
-    libsdm-colormgr-algo \
-    libsdm-diag \
-    libsdm-disp-vndapis \
-    libsdmextension \
-    unnhal-acc-adreno \
-    vendor.display.color@1.0 \
-    vendor.display.color@1.1 \
-    vendor.display.color@1.2 \
-    vendor.display.color@1.3 \
-    vendor.display.color@1.4 \
-    vendor.display.color@1.5 \
-    vendor.display.postproc@1.0 \
-    vendor.display.color@1.0-service \
-    qdcmss \
     vendor_lib_libEGL_adreno_so \
     vendor_lib_libGLESv2_adreno_so \
     vendor_lib_libq3dtools_adreno_so \
     vendor_lib64_libEGL_adreno_so \
     vendor_lib64_libGLESv2_adreno_so \
-    vendor_lib64_libq3dtools_adreno_so \
-
-endif
+    vendor_lib64_libq3dtools_adreno_so
